@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>NAYISSORIA · Hub de travail</title>
+<style>
+:root{--ink:#171c1a;--stone:#efeae2;--card:#fbf9f5;--line:#ddd5c8;--gold:#b9915d;--gold2:#d3b184;--mut:#6f675b;--red:#b3261e;--grn:#1f7a3d;--blu:#1d5bb8;--amb:#b7791f}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;background:var(--stone);color:var(--ink);font-size:14px}
+header{background:var(--ink);color:#fff;padding:10px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:20}
+.brand{font-family:Georgia,serif;font-size:19px;letter-spacing:1px;display:flex;align-items:center;gap:8px;margin-right:10px;cursor:pointer}
+.brand i{width:10px;height:10px;background:var(--gold2);transform:rotate(45deg);display:inline-block}
+.brand small{font-family:-apple-system,Arial,sans-serif;font-size:12px;color:#b8afa1;letter-spacing:0}
+.tab{background:none;border:0;color:#cfc6b8;font:inherit;padding:8px 12px;border-radius:8px;cursor:pointer;white-space:nowrap}.tab.on{background:#fff;color:var(--ink);font-weight:600}
+.sp{flex:1}.hbtn{background:none;border:1px solid #5c554a;color:#cfc6b8;border-radius:8px;padding:5px 10px;cursor:pointer;font:inherit}
+main{max-width:1240px;margin:0 auto;padding:18px}
+h1{font-family:Georgia,serif;font-size:24px;margin:0 0 4px}h2{font-family:Georgia,serif;font-size:18px;margin:0 0 10px}
+.sub{color:var(--mut);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+.grid{display:grid;gap:14px}.g4{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}.gp{grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+.kpi .n{font-family:Georgia,serif;font-size:30px;line-height:1.1}.kpi .l{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.6px;margin-top:4px}
+.bar{height:6px;background:#e6dfd3;border-radius:6px;overflow:hidden}.bar>i{display:block;height:100%;background:var(--gold)}
+table{width:100%;border-collapse:collapse}th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--mut);padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:5px 8px;border-bottom:1px solid #ece5d9;vertical-align:middle}tr:last-child td{border-bottom:0}
+input,select,textarea{font:inherit;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:7px;padding:5px 7px;max-width:100%}
+input[type=checkbox]{width:18px;height:18px;accent-color:var(--gold)}
+td input.w{width:100%}td input[type=date]{width:134px}
+.late{background:#fbeceb}.chip{display:inline-block;border-radius:999px;padding:2px 9px;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap}
+.c-todo{background:#e9e3d7;color:#5b5346}.c-doing{background:#dce8fa;color:var(--blu)}.c-wait{background:#fdefcf;color:var(--amb)}.c-done{background:#dcf1e2;color:var(--grn)}.c-red{background:#f8d9d6;color:var(--red)}
+button.b{background:var(--ink);color:#fff;border:0;border-radius:8px;padding:7px 12px;cursor:pointer;font:inherit}button.b.g{background:var(--gold)}button.b.o{background:none;color:var(--ink);border:1px solid var(--line)}
+button.x{background:none;border:0;color:#a09686;cursor:pointer;font-size:16px}button.x:hover{color:var(--red)}button.ok{background:none;border:0;color:var(--grn);cursor:pointer;font-size:16px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pc{display:block;color:inherit;text-decoration:none;cursor:pointer;border-left:6px solid var(--gold);margin:0}.pc:hover{box-shadow:0 2px 10px #0002}
+.pc b{font-size:15px}.pc .s{color:var(--mut);font-size:12px;margin:2px 0 8px;min-height:30px}
+#login{max-width:380px;margin:12vh auto;text-align:center}#login input{width:100%;margin:12px 0;padding:10px;font-size:16px;text-align:center}
+#msg{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:8px 16px;border-radius:10px;z-index:50;display:none}
+.mut{color:var(--mut)}.sm{font-size:12px}.sec{margin:16px 0 6px;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.6px}
+a{color:var(--blu)}details summary{cursor:pointer;color:var(--mut);margin:8px 0}
+</style></head><body>
+<div id="app"></div><div id="msg"></div>
+<script>
+const SB='https://dseeuxxfnqqyfxibhtzm.supabase.co';
+// clé anonyme publique : n'ouvre que des fonctions protégées par le code d'accès
+const _K='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzZWV1eHhmbnFxeWZ4aWJodHptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM2NzkzMDAsImV4cCI6MjEwOTI1NTMwMH0.-DHg3KiEh18BGvb7dCxcxDgN-hPaI2eMhUfyBqVRRik';
+const API=SB;const APIKEY=_K;
+const COLORS=['#b9915d','#1d5bb8','#1f7a3d','#8a4fb3','#c4522a','#2b7a78','#b3261e','#6b7f2a','#a05a7a','#3d5a80','#c28b00','#5c554a','#8c6d46'];
+const PRJ=[
+['doan','DOAN · Khaliat Al Nahl','Accompagnement 360° · Rabwa, Riyadh · ouverture visée 28 janv. 2027','active',[['Tableau de pilotage DOAN','https://chefabdelbaker-svg.github.io/nayissoria-doan-pilot-8k3x/'],['Contrat signé à renvoyer (PDF)','https://chefabdelbaker-svg.github.io/doan-khaliat-al-nahl/Support-Agreement-NAY-KAN-2026-001.pdf'],['Demande de paiement n°1','https://claude.ai/artifact/5Azd1nXzVhMXKDzyy35VZ4'],['Planning et trame de travail','https://claude.ai/artifact/5H7mPFYB15Ku6QpKao4ABW']]],
+['kooskoos','KOOSKOOS','Couscous en livraison depuis une dark kitchen · Riyad · 50/50 avec l\'investisseur','active',[['Dépôt GitHub','https://github.com/chefabdelbaker-svg/kooskoos-dossier-m3r8']]],
+['medine','Médine · coffee shop + cuisine centrale','Étude de faisabilité investisseur · scénario coffee shop 150 m², enveloppe max 1,6 M SAR','active',[['Dépôt GitHub','https://github.com/chefabdelbaker-svg/medina-nys-q4m8']]],
+['nabate','MAISON NABATE · Marrakech','Projet investisseur · cuisine centrale Sidi Ghanem + flagship · film de présentation','active',[]],
+['myia','MYIÀ · Pâtisserie Marrakech','Ton projet à toi, distinct de NABATE · pas de local pour l\'instant','active',[['Dépôt GitHub','https://github.com/chefabdelbaker-svg/myia-dossier']]],
+['tuileries','Maison Tuileries · La Mecque','Ouverture, manuel RH, aménagement OX Interiors','active',[]],
+['btr','BTR · French Toast Café','Client Anas · mission 15 000 SAR · ouverture visée février 2027','active',[['Dépôt GitHub','https://github.com/chefabdelbaker-svg/btr-french-toast-cafe-k4p9']]],
+['moki','MOKi (MOOKi)','Franchise café accessible · drive-thru ≤ 100 m² · Riyad puis Golfe','active',[]],
+['loop','LOOP Coffee','Concept café, possible format secondaire (kiosque / drive-thru)','idea',[]],
+['egypte','Bakery Égypte','Dossier de 3 scénarios d\'implantation de production · FR et EN','active',[['Dépôt GitHub','https://github.com/chefabdelbaker-svg/bakery-egypte-w8m3']]],
+['ck','Central Kitchen Hôtel (Narcissus)','Cuisine centrale d\'environ 250 m² dans un hôtel d\'Olaya, Riyad + recherche d\'un flagship','active',[]],
+['rachid','Rachid · BEME Saudi','Filiale saoudienne de BEME Dubaï · distribution d\'équipements de boulangerie','active',[['Dépôt GitHub','https://github.com/chefabdelbaker-svg/beme-saudi-k7x2']]],
+['nay','NAYISSORIA ADVISORY','Ton cabinet de conseil F&B · site, marque, société','active',[['Dépôt du site','https://github.com/chefabdelbaker-svg/nayissoria-advisory']]]];
+const ACT=[
+['doan',1,'2026-11-18','Livrable 1.1 : brief client et questionnaire complété',0],
+['doan',1,'','Recevoir le contrat signé, puis envoyer la demande de paiement n°1 (27 375 SAR)',0],
+['doan',2,'2026-11-23','Livrable 1.2 : visite du local, mesures et checklist technique',0],
+['doan',1,'2026-11-26','Livrables 1.3 rapport de faisabilité et 2.1 trois pistes de logo',0],
+['doan',1,'2026-12-17','Jalon de paiement n°2 : implantation, équipements et budget validés (13 687,50 SAR)',0],
+['kooskoos',1,'','Finaliser le dossier dynamique unique FR/EN, film intégré en haut',1],
+['kooskoos',2,'','Refaire tous les visuels avec Higgsfield (annoncer le coût exact avant toute génération)',1],
+['kooskoos',2,'','Envoyer le devis de création de société et le dossier initial de l\'investisseur',1],
+['kooskoos',3,'','Valider la signature de marque « Hmmm… Kwayyes ! » pour le film et l\'emballage',1],
+['medine',1,'','Finaliser les chiffres du scénario coffee shop 150 m² avec de vrais devis (enveloppe max 1,6 M SAR)',1],
+['medine',2,'','Publier la page investisseur et envoyer le lien aux partenaires',1],
+['nabate',1,'','Finir de visionner la V5 du film, puis demander un seul remontage avec toutes les corrections',1],
+['nabate',2,'','Fournir le Business Plan v5 Marrakech (nécessaire pour finaliser le film)',1],
+['nabate',2,'','Finaliser le logo officiel MAISON NABATE',1],
+['myia',1,'','Fournir les devis d\'équipements en dirhams (MAD) pour le dossier CAPEX',1],
+['myia',3,'','Trouver un local : le plan actuel n\'est qu\'une simulation',1],
+['tuileries',1,'','Faire le point sur l\'ouverture (prévue mi-septembre 2026)',1],
+['tuileries',2,'','Finaliser le recrutement du barista specialty coffee',1],
+['btr',1,'','Encaisser le solde de 6 000 SAR avant la livraison finale',1],
+['btr',2,'','Compléter le manuel SOP illustré dans le dossier complet',1],
+['btr',2,'','Suivre le retour d\'Anas après la remise du dossier du 11 novembre',1],
+['moki',1,'','Lancer la vérification de marque SAIP (classes 30 et 43)',1],
+['moki',2,'','Rédiger le document Brand DNA (règles de franchise non négociables)',1],
+['moki',3,'','Trancher le symbole final et le traitement du point sur le « i »',1],
+['loop',3,'','Décider si LOOP devient un concept secondaire (kiosque ou drive-thru)',1],
+['egypte',2,'','Finaliser le dossier FR/EN avec les 3 scénarios et les visuels du Nil',1],
+['ck',2,'','Valider le scénario d\'implantation retenu (le scénario 6 est ton préféré)',1],
+['ck',2,'','Choisir le flagship d\'au moins 200 m² avec terrasse (étude des quartiers, top 3)',1],
+['rachid',1,'','Répondre à Rachid par e-mail : rôle du partenaire local, exécution des travaux, chiffres',1],
+['rachid',1,'','Obtenir un NDA signé avant d\'envoyer la version client du dossier BEME Saudi',1],
+['rachid',2,'','Finaliser le dossier BEME Saudi (version 3)',1],
+['nay',2,'','Finaliser le symbole et le logo en vectoriel',1],
+['nay',2,'','Terminer la création de la société NAYISSORIA ADVISORY',1],
+['nay',3,'','Créer le lien de rendez-vous gratuit de 30 minutes pour le site',1],
+['nay',3,'','Acheter le nom de domaine quand la structure du site est figée',1]];
+const ST={status:{active:'Actif',pause:'En pause',idea:'Idée',archive:'Archivé'},act:{todo:'À faire',doing:'En cours',wait:'En attente',done:'Fait'},prio:{1:'Haute',2:'Normale',3:'Basse'}};
+let CODE=sessionStorage.getItem('nhc')||localStorage.getItem('nhc')||'',DB={},timers={},SHOWDONE={};
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const ds=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const today=()=>ds(new Date());
+const plus=n=>{const d=new Date();d.setDate(d.getDate()+n);return ds(d)};
+const nid=()=>'x'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const fd=d=>{if(!d)return'';const x=new Date(d+'T00:00:00');return x.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'})};
+function toast(m,ms){const e=document.getElementById('msg');e.textContent=m;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',ms||1200)}
+async function rpc(fn,a){const r=await fetch(API+'/rest/v1/rpc/'+fn,{method:'POST',headers:{apikey:APIKEY,Authorization:'Bearer '+APIKEY,'Content-Type':'application/json'},body:JSON.stringify(a)});const x=await r.text();if(!r.ok)throw new Error(x);return x?JSON.parse(x):null}
+const items=k=>Object.values(DB).filter(o=>o.kind===k);
+function put(o){DB[o.id]=o;const{id,kind,...d}=o;return rpc('nay_hub_upsert',{p_code:CODE,p_id:id,p_kind:kind,p_data:d})}
+function save(o,now){toast('Enregistrement…',600);clearTimeout(timers[o.id]);const go=()=>put(o).then(()=>toast('Enregistré')).catch(()=>toast('Erreur de connexion',3000));if(now)go();else timers[o.id]=setTimeout(go,500)}
+async function del(id){delete DB[id];try{await rpc('nay_hub_delete',{p_code:CODE,p_id:id})}catch(e){toast('Erreur de connexion',3000)}}
+async function load(){const rows=await rpc('nay_hub_list',{p_code:CODE});DB={};rows.forEach(r=>DB[r.id]={id:r.id,kind:r.kind,...r.data});
+ if(!items('prj').length){toast('Première préparation du hub…',4000);const s=[];
+  PRJ.forEach((p,i)=>s.push({id:'p_'+p[0],kind:'prj',name:p[1],sub:p[2],status:p[3],links:p[4].map(l=>({label:l[0],url:l[1]})),notes:'',ord:i}));
+  ACT.forEach((a,i)=>s.push({id:'a'+String(i).padStart(3,'0'),kind:'act',prj:'p_'+a[0],title:a[3],due:a[2],prio:a[1],status:'todo',note:'',verify:!!a[4],created:today()}));
+  await Promise.all(s.map(o=>put(o)));}}
+async function login(c){CODE=c;try{await load();sessionStorage.setItem('nhc',c);localStorage.setItem('nhc',c);return true}catch(e){CODE='';return false}}
+function logout(){sessionStorage.removeItem('nhc');localStorage.removeItem('nhc');CODE='';DB={};render()}
+function backup(){const b=new Blob([JSON.stringify(Object.values(DB),null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='hub-nayissoria-'+today()+'.json';a.click()}
+const prjs=()=>items('prj').sort((a,b)=>a.ord-b.ord);
+const acts=()=>items('act');
+const isOpen=a=>a.status!=='done';
+const isLate=a=>isOpen(a)&&a.due&&a.due<today();
+const pname=id=>(DB[id]||{}).name||'?';
+const pcol=id=>COLORS[(prjs().findIndex(p=>p.id===id)+COLORS.length)%COLORS.length];
+const route=()=>{const h=location.hash.slice(1);if(h.startsWith('p='))return{v:'prj',id:h.slice(2)};if(h==='actions')return{v:'actions'};return{v:'home'}};
+window.addEventListener('hashchange',()=>{render();window.scrollTo(0,0)});
+const selP=(id,f,v)=>'<select data-id="'+id+'" data-f="'+f+'">'+prjs().map(p=>'<option value="'+p.id+'"'+(v===p.id?' selected':'')+'>'+esc(p.name)+'</option>').join('')+'</select>';
+const selO=(id,f,v,map)=>'<select data-id="'+id+'" data-f="'+f+'">'+Object.entries(map).map(([k,l])=>'<option value="'+k+'"'+(String(v)===k?' selected':'')+'>'+esc(l)+'</option>').join('')+'</select>';
+function actRow(a,showP){const late=isLate(a);
+ return '<tr class="'+(late?'late':'')+'"><td style="width:30px"><input type="checkbox" data-id="'+a.id+'" data-f="done"'+(a.status==='done'?' checked':'')+'></td>'
+ +'<td><input class="w" data-id="'+a.id+'" data-f="title" value="'+esc(a.title)+'"'+(a.status==='done'?' style="text-decoration:line-through;color:var(--mut)"':'')+'>'
+ +(a.verify?'<div class="sm"><span class="chip c-red">à vérifier</span> <button class="ok" data-ok="'+a.id+'" title="Confirmer que cette action est juste">✓ confirmer</button></div>':'')+'</td>'
+ +(showP?'<td><a class="chip" style="background:'+pcol(a.prj)+'22;color:#222" href="#p='+a.prj+'">'+esc(pname(a.prj))+'</a></td>':'')
+ +'<td><input type="date" data-id="'+a.id+'" data-f="due" value="'+esc(a.due)+'"></td><td>'+selO(a.id,'prio',a.prio,ST.prio)+'</td><td>'+selO(a.id,'status',a.status,ST.act)+'</td>'
+ +'<td><input class="w" placeholder="Note" data-id="'+a.id+'" data-f="note" value="'+esc(a.note)+'"></td><td><button class="x" data-del="'+a.id+'">✕</button></td></tr>'}
+const head=showP=>'<tr><th></th><th>Action</th>'+(showP?'<th>Projet</th>':'')+'<th>Échéance</th><th>Priorité</th><th>Statut</th><th>Note</th><th></th></tr>';
+const tbl=(L,showP)=>'<div style="overflow-x:auto"><table>'+head(showP)+L.map(a=>actRow(a,showP)).join('')+'</table></div>';
+const byDue=L=>L.slice().sort((a,b)=>((a.due||'9')>(b.due||'9'))-((a.due||'9')<(b.due||'9'))||a.prio-b.prio);
+function vHome(){const P=prjs().filter(p=>p.status!=='archive'),pid=new Set(P.map(p=>p.id)),O=acts().filter(a=>isOpen(a)&&pid.has(a.prj)),t=today(),w=plus(7);
+ const late=byDue(O.filter(a=>a.due&&a.due<t)),td=O.filter(a=>a.due===t),wk=byDue(O.filter(a=>a.due>t&&a.due<=w)),hi=O.filter(a=>!a.due&&a.prio===1),ver=O.filter(a=>a.verify).length;
+ const sect=(h,L,c)=>L.length?'<div class="sec" style="color:'+(c||'inherit')+'">'+h+' · '+L.length+'</div><div class="card" style="padding:8px">'+tbl(L,true)+'</div>':'';
+ const quick='<div class="card"><div class="row"><input id="qt" style="flex:2;min-width:220px" placeholder="Nouvelle action…" ><select id="qp">'+P.map(p=>'<option value="'+p.id+'">'+esc(p.name)+'</option>').join('')+'</select><input type="date" id="qd"><select id="qr"><option value="1">Haute</option><option value="2" selected>Normale</option><option value="3">Basse</option></select><button class="b g" data-add="qa">Ajouter</button></div></div>';
+ const cards=P.map(p=>{const A=acts().filter(a=>a.prj===p.id),o=A.filter(isOpen),l=o.filter(isLate),n=byDue(o.filter(a=>a.due))[0],dn=A.length-o.length;
+  return '<a class="card pc" style="border-left-color:'+pcol(p.id)+'" href="#p='+p.id+'"><b>'+esc(p.name)+'</b><div class="s">'+esc(p.sub)+'</div><div class="row sm" style="margin-bottom:8px"><span class="chip c-todo">'+o.length+' ouvertes</span>'+(l.length?'<span class="chip c-red">'+l.length+' en retard</span>':'')+(p.status!=='active'?'<span class="chip c-wait">'+ST.status[p.status]+'</span>':'')+'</div><div class="bar"><i style="width:'+(A.length?dn*100/A.length:0)+'%"></i></div>'+(n?'<div class="sm mut" style="margin-top:6px">Prochaine échéance : '+fd(n.due)+'</div>':'')+'</a>'}).join('');
+ return '<h1>Aujourd\'hui</h1><p class="sub">'+new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+'</p>'
+ +'<div class="grid g4" style="margin-bottom:14px"><div class="card kpi" style="margin:0"><div class="n">'+O.length+'</div><div class="l">Actions ouvertes</div></div><div class="card kpi" style="margin:0"><div class="n" style="color:'+(late.length?'var(--red)':'var(--grn)')+'">'+late.length+'</div><div class="l">En retard</div></div><div class="card kpi" style="margin:0"><div class="n">'+(td.length+wk.length)+'</div><div class="l">Cette semaine</div></div><div class="card kpi" style="margin:0"><div class="n">'+ver+'</div><div class="l">À vérifier</div></div></div>'
+ +quick+sect('En retard',late,'var(--red)')+sect('Aujourd\'hui',td)+sect('Cette semaine (7 jours)',wk)+sect('Priorité haute sans date',hi)
+ +(!late.length&&!td.length&&!wk.length&&!hi.length?'<div class="card mut">Rien de daté. Donne une échéance à tes actions pour qu\'elles remontent ici.</div>':'')
+ +'<div class="row" style="margin:18px 0 8px"><h2 style="margin:0">Projets</h2><span class="sp"></span><button class="b o" data-add="prj">+ Projet</button></div><div class="grid gp">'+cards+'</div>'}
+function vPrj(id){const p=DB[id];if(!p)return '<p>Projet introuvable. <a href="#">Retour</a></p>';const A=byDue(acts().filter(a=>a.prj===id)),o=A.filter(isOpen),d=A.filter(a=>!isOpen(a));
+ return '<p><a href="#">← Tous les projets</a></p><div class="card" style="border-left:6px solid '+pcol(id)+'"><div class="row"><input data-id="'+id+'" data-f="name" value="'+esc(p.name)+'" style="font:700 20px Georgia,serif;flex:1;min-width:240px"><select data-id="'+id+'" data-f="status">'+Object.entries(ST.status).map(([k,l])=>'<option value="'+k+'"'+(p.status===k?' selected':'')+'>'+l+'</option>').join('')+'</select><button class="x" data-delp="'+id+'" title="Supprimer le projet">✕</button></div><input class="w" style="width:100%;margin-top:8px" data-id="'+id+'" data-f="sub" value="'+esc(p.sub)+'" placeholder="Description courte"></div>'
+ +'<div class="card"><div class="row" style="margin-bottom:6px"><h2 style="margin:0">Liens</h2><span class="sp"></span><button class="b o" data-addl="'+id+'">+ Lien</button></div>'+((p.links||[]).length?'<table>'+(p.links||[]).map((l,i)=>'<tr><td style="width:30%"><input class="w" data-lk="'+id+'" data-i="'+i+'" data-lf="label" value="'+esc(l.label)+'"></td><td><input class="w" data-lk="'+id+'" data-i="'+i+'" data-lf="url" value="'+esc(l.url)+'"></td><td style="width:70px">'+(l.url?'<a href="'+esc(l.url)+'" target="_blank" rel="noopener">Ouvrir ↗</a>':'')+'</td><td style="width:30px"><button class="x" data-dell="'+id+'" data-i="'+i+'">✕</button></td></tr>').join('')+'</table>':'<span class="mut">Aucun lien. Ajoute le dossier en ligne, le dépôt GitHub, le document…</span>')+'</div>'
+ +'<div class="card"><div class="row" style="margin-bottom:6px"><h2 style="margin:0">Actions · '+o.length+' ouvertes</h2><span class="sp"></span><button class="b g" data-add="act" data-prj="'+id+'">+ Action</button></div>'+(o.length?tbl(o,false):'<span class="mut">Aucune action ouverte.</span>')+(d.length?'<details'+(SHOWDONE[id]?' open':'')+' data-sd="'+id+'"><summary>'+d.length+' terminées</summary>'+tbl(d,false)+'</details>':'')+'</div>'
+ +'<div class="card"><h2>Notes</h2><textarea rows="6" style="width:100%" data-id="'+id+'" data-f="notes" placeholder="Décisions, idées, points à retenir…">'+esc(p.notes)+'</textarea></div>'}
+function vActions(){const fp=window._fp||'',fs=window._fs||'open',q=(window._fq||'').toLowerCase();let L=acts().filter(a=>(!fp||a.prj===fp)&&(fs==='all'||(fs==='open'?isOpen(a):a.status===fs))&&(!q||(a.title+a.note).toLowerCase().includes(q)));L=byDue(L);
+ return '<h1>Toutes les actions</h1><div class="card"><div class="row"><select id="fp"><option value="">Tous les projets</option>'+prjs().map(p=>'<option value="'+p.id+'"'+(fp===p.id?' selected':'')+'>'+esc(p.name)+'</option>').join('')+'</select><select id="fs"><option value="open"'+(fs==='open'?' selected':'')+'>Ouvertes</option>'+Object.entries(ST.act).map(([k,l])=>'<option value="'+k+'"'+(fs===k?' selected':'')+'>'+l+'</option>').join('')+'<option value="all"'+(fs==='all'?' selected':'')+'>Toutes</option></select><input id="fq" placeholder="Rechercher…" value="'+esc(window._fq||'')+'"><span class="mut sm">'+L.length+' actions</span></div></div><div class="card" style="padding:8px">'+tbl(L,true)+'</div>'}
+function render(){const A=document.getElementById('app'),keep=document.activeElement&&document.activeElement.id;
+ if(!CODE||!Object.keys(DB).length){A.innerHTML='<div id="login" class="card"><div class="brand" style="justify-content:center;color:var(--ink)"><i></i>NAYISSORIA <small style="color:var(--mut)">HUB</small></div><p class="sub">Espace de travail privé</p><input id="lc" type="password" placeholder="Code d\'accès" autocomplete="current-password"><button class="b g" style="width:100%" id="lgo">Entrer</button><p id="le" style="color:var(--red)"></p></div>';
+  const go=async()=>{const v=document.getElementById('lc').value.trim();if(!v)return;document.getElementById('le').textContent='…';if(await login(v))render();else document.getElementById('le').textContent='Code incorrect'};
+  document.getElementById('lgo').onclick=go;document.getElementById('lc').onkeydown=e=>{if(e.key==='Enter')go()};return}
+ const r=route(),body=r.v==='prj'?vPrj(r.id):r.v==='actions'?vActions():vHome();
+ A.innerHTML='<header><div class="brand" onclick="location.hash=\'\'"><i></i>NAYISSORIA <small>HUB</small></div><button class="tab'+(r.v==='home'?' on':'')+'" onclick="location.hash=\'\'">Accueil</button><button class="tab'+(r.v==='actions'?' on':'')+'" onclick="location.hash=\'actions\'">Toutes les actions</button><div class="sp"></div><button class="hbtn" onclick="backup()">Sauvegarde</button><button class="hbtn" onclick="logout()">Quitter</button></header><main>'+body+'</main>';
+ if(keep&&document.getElementById(keep)){const e=document.getElementById(keep);e.focus();if(e.setSelectionRange&&e.type==='text'){e.setSelectionRange(e.value.length,e.value.length)}}}
+document.addEventListener('change',e=>{const el=e.target;
+ if(el.id==='fp'||el.id==='fs'){window._fp=document.getElementById('fp').value;window._fs=document.getElementById('fs').value;render();return}
+ if(el.dataset.lk){const p=DB[el.dataset.lk];p.links[+el.dataset.i][el.dataset.lf]=el.value;save(p,true);render();return}
+ const o=DB[el.dataset.id];if(!o)return;const f=el.dataset.f;let v=el.type==='checkbox'?el.checked:el.value;
+ if(f==='done'){o.status=v?'done':'todo'}else if(f==='prio'){o.prio=+v}else o[f]=v;
+ if(o.kind==='act'&&o.verify)o.verify=false;
+ save(o,true);if(['done','status','due','prio','prj','name','status'].includes(f))render()});
+document.addEventListener('input',e=>{const el=e.target;
+ if(el.id==='fq'){window._fq=el.value;render();return}
+ if(el.dataset.lk){const p=DB[el.dataset.lk];p.links[+el.dataset.i][el.dataset.lf]=el.value;save(p,false);return}
+ const o=DB[el.dataset.id];if(!o||el.type==='checkbox'||el.tagName==='SELECT'||el.type==='date')return;o[el.dataset.f]=el.value;if(o.kind==='act'&&o.verify){o.verify=false;}save(o,false)});
+document.addEventListener('toggle',e=>{const d=e.target;if(d.dataset&&d.dataset.sd)SHOWDONE[d.dataset.sd]=d.open},true);
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+ if(d.ok){const a=DB[d.ok];a.verify=false;save(a,true);render();return}
+ if(d.del){if(confirm('Supprimer cette action ?'))del(d.del).then(render);return}
+ if(d.delp){if(confirm('Supprimer ce projet et toutes ses actions ?')){const ids=acts().filter(a=>a.prj===d.delp).map(a=>a.id).concat([d.delp]);Promise.all(ids.map(del)).then(()=>{location.hash='';render()})}return}
+ if(d.addl){const p=DB[d.addl];p.links=(p.links||[]).concat([{label:'',url:''}]);save(p,true);render();return}
+ if(d.dell){const p=DB[d.dell];p.links.splice(+d.i,1);save(p,true);render();return}
+ if(d.add==='qa'){const t=document.getElementById('qt').value.trim();if(!t){document.getElementById('qt').focus();return}const o={id:nid(),kind:'act',prj:document.getElementById('qp').value,title:t,due:document.getElementById('qd').value,prio:+document.getElementById('qr').value,status:'todo',note:'',verify:false,created:today()};DB[o.id]=o;save(o,true);render();return}
+ if(d.add==='act'){const o={id:nid(),kind:'act',prj:d.prj,title:'',due:'',prio:2,status:'todo',note:'',verify:false,created:today()};DB[o.id]=o;save(o,true);render();return}
+ if(d.add==='prj'){const n=prompt('Nom du projet ?');if(!n)return;const o={id:'p_'+nid(),kind:'prj',name:n,sub:'',status:'active',links:[],notes:'',ord:items('prj').length};DB[o.id]=o;save(o,true);location.hash='p='+o.id;return}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='qt'){const b=document.querySelector('[data-add="qa"]');if(b)b.click()}});
+(async()=>{if(CODE){if(!(await login(CODE)))CODE=''}render()})();
+</script></body></html>
