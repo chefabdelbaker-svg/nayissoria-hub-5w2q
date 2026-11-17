@@ -112,7 +112,7 @@ async function load(){const rows=await rpc('nay_hub_list',{p_code:CODE});DB={};r
   PRJ.forEach((p,i)=>s.push({id:'p_'+p[0],kind:'prj',name:p[1],sub:p[2],status:p[3],links:p[4].map(l=>({label:l[0],url:l[1]})),notes:'',ord:i}));
   ACT.forEach((a,i)=>s.push({id:'a'+String(i).padStart(3,'0'),kind:'act',prj:'p_'+a[0],title:a[3],due:a[2],prio:a[1],status:'todo',note:'',verify:!!a[4],created:today()}));
   await Promise.all(s.map(o=>put(o)));}}
-async function login(c){CODE=c;try{await load();sessionStorage.setItem('nhc',c);localStorage.setItem('nhc',c);return true}catch(e){CODE='';return false}}
+async function login(c){CODE=c;try{const g=await rpc('nay_hub_login',{p_code:c});if(!g||g.error){CODE='';if(g&&g.error==='locked')toast('Trop d\'essais. Réessaie dans 10 minutes.',4000);return false}await load();sessionStorage.setItem('nhc',c);localStorage.setItem('nhc',c);return true}catch(e){CODE='';return false}}
 function logout(){sessionStorage.removeItem('nhc');localStorage.removeItem('nhc');CODE='';DB={};render()}
 function backup(){const b=new Blob([JSON.stringify(Object.values(DB),null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='hub-nayissoria-'+today()+'.json';a.click()}
 const prjs=()=>items('prj').sort((a,b)=>a.ord-b.ord);
