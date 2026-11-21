@@ -92,6 +92,7 @@ const ACT=[
 ['nay',2,'','Terminer la création de la société NAYISSORIA ADVISORY',1],
 ['nay',3,'','Créer le lien de rendez-vous gratuit de 30 minutes pour le site',1],
 ['nay',3,'','Acheter le nom de domaine quand la structure du site est figée',1]];
+const NEWP=[{key:'myriam',prj:['myriam','Myriam · Pâtisserie Marrakech (client)','Accompagnement de A à Z en 7 phases · tout à distance, ta présence seulement pour la formation · devis à faire à partir de sa sélection','active',[['Dossier de propositions (lien à envoyer)','https://chefabdelbaker-svg.github.io/myriam-marrakech-4t9k/?v=11'],['Dépôt GitHub du dossier','https://github.com/chefabdelbaker-svg/myriam-marrakech-4t9k']]],acts:[[1,'','Envoyer le lien du dossier à Myriam sur WhatsApp, puis attendre sa sélection (phases et options)'],[1,'','Faire son devis à partir de sa sélection (pas de prix dans le dossier)'],[2,'','Lui demander les documents à préparer : bail, photos du local, plans cotés, budget'],[2,'','Lui indiquer le modèle et l\'emplacement de la caméra de chantier (achat et pose à sa charge)'],[3,'','Trouver le nom définitif de la plateforme « Maison »']]}];
 const ST={status:{active:'Actif',pause:'En pause',idea:'Idée',archive:'Archivé'},act:{todo:'À faire',doing:'En cours',wait:'En attente',done:'Fait'},prio:{1:'Haute',2:'Normale',3:'Basse'}};
 let CODE=sessionStorage.getItem('nhc')||localStorage.getItem('nhc')||'',DB={},timers={},SHOWDONE={};
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -111,7 +112,13 @@ async function load(){const rows=await rpc('nay_hub_list',{p_code:CODE});DB={};r
  if(!items('prj').length){toast('Première préparation du hub…',4000);const s=[];
   PRJ.forEach((p,i)=>s.push({id:'p_'+p[0],kind:'prj',name:p[1],sub:p[2],status:p[3],links:p[4].map(l=>({label:l[0],url:l[1]})),notes:'',ord:i}));
   ACT.forEach((a,i)=>s.push({id:'a'+String(i).padStart(3,'0'),kind:'act',prj:'p_'+a[0],title:a[3],due:a[2],prio:a[1],status:'todo',note:'',verify:!!a[4],created:today()}));
-  await Promise.all(s.map(o=>put(o)));}}
+  await Promise.all(s.map(o=>put(o)));}
+ const add=[];let mx=Math.max(-1,...items('prj').map(p=>p.ord||0));
+ NEWP.forEach(n=>{if(DB['m_'+n.key])return;const id='p_'+n.prj[0];
+  if(!DB[id]){mx++;add.push({id,kind:'prj',name:n.prj[1],sub:n.prj[2],status:n.prj[3],links:n.prj[4].map(l=>({label:l[0],url:l[1]})),notes:'',ord:mx});
+   n.acts.forEach((a,i)=>add.push({id:'a_'+n.key+i,kind:'act',prj:id,title:a[2],due:a[1],prio:a[0],status:'todo',note:'',verify:true,created:today()}))}
+  add.push({id:'m_'+n.key,kind:'mig',done:today()})});
+ if(add.length){await Promise.all(add.map(o=>put(o)));toast('Nouveau projet ajouté',2500)}}
 async function login(c){CODE=c;try{const g=await rpc('nay_hub_login',{p_code:c});if(!g||g.error){CODE='';if(g&&g.error==='locked')toast('Trop d\'essais. Réessaie dans 10 minutes.',4000);return false}await load();sessionStorage.setItem('nhc',c);localStorage.setItem('nhc',c);return true}catch(e){CODE='';return false}}
 function logout(){sessionStorage.removeItem('nhc');localStorage.removeItem('nhc');CODE='';DB={};render()}
 function backup(){const b=new Blob([JSON.stringify(Object.values(DB),null,1)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='hub-nayissoria-'+today()+'.json';a.click()}
